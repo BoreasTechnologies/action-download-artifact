@@ -246,16 +246,20 @@ async function main() {
 
             let zip
             try {
+
+                core.info(`==> Just before Downloading: ${artifact.name}.zip (${size})`)
                 zip = await client.rest.actions.downloadArtifact({
                     owner: owner,
                     repo: repo,
                     artifact_id: artifact.id,
                     archive_format: "zip",
                 })
+                core.info(`==> Just after Downloading: ${artifact.name}.zip (${size})`)
             } catch (error) {
                 if (error.message.startsWith("Artifact has expired")) {
                     return setExitMessage(ifNoArtifactFound, "no downloadable artifacts found (expired)")
                 } else {
+                    core.info(`==> Error happened: ${error.message}`)
                     throw new Error(error.message)
                 }
             }
