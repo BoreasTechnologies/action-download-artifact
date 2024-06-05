@@ -246,9 +246,10 @@ async function main() {
 
             let zip
             try {
+                const downloadClient = github.getOctokit(token)
 
                 core.info(`==> Just before Downloading: ${artifact.name}.zip (${size})`)
-                zip = await client.rest.actions.downloadArtifact({
+                zip = await downloadClient.rest.actions.downloadArtifact({
                     owner: owner,
                     repo: repo,
                     artifact_id: artifact.id,
